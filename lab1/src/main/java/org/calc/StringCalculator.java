@@ -70,9 +70,10 @@ public class StringCalculator {
             if (summand < 0) {
                 negativeNumbers.add(summand);
             }
-            result += summand;
+            if (summand < 1001) {
+                result += summand;
+            }
         }
-
         if (!negativeNumbers.isEmpty()) {
             throw new IllegalArgumentException("Negatives not allowed: " + negativeNumbers);
         }
@@ -81,7 +82,7 @@ public class StringCalculator {
 
     public static void main(String[] args) {
         StringCalculator calc = new StringCalculator();
-        int res = calc.add("//[*]\n-3*7\n20,5*-10");
+        int res = calc.add("//[*]\n10000*1000*7\n20,5*10");
         System.out.println(res);
     }
 }

@@ -52,4 +52,9 @@ public class StringCalculatorTest {
     void negativeNumbersCase() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> calc.add("-2,4,-3"), "Negatives not allowed: [-2, -3]");
     }
+
+    @Test
+    void bigNumbersCase() {
+        Assertions.assertEquals(1999, calc.add("1000,999,1001"));
+    }
 }
