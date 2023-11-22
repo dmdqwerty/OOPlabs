@@ -46,10 +46,13 @@ public class StringCalculator {
                 pattern.append(']').insert(0, '[');
             } else {
                 pattern.append(']').insert(0, '[');
-                pattern.append('|');
-                int index = 3;
-                while (numbersAsCharArray[index] != ']') {
-                    pattern.append("\\").append(numbersAsCharArray[index]);
+                int index = 2;
+                while (numbersAsCharArray[index] != '\n') {
+                    if (numbersAsCharArray[index] == '[') {
+                        pattern.append('|');
+                    } else if (numbersAsCharArray[index] != ']') {
+                        pattern.append("\\").append(numbersAsCharArray[index]);
+                    }
                     index++;
                 }
             }
