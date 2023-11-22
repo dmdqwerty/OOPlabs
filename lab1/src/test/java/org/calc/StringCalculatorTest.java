@@ -42,4 +42,11 @@ public class StringCalculatorTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> calc.add("3,5,\n6"), "Two delimiters in a row are not allowed");
     }
 
+    @Test
+    void customDelimiterCase() {
+        Assertions.assertEquals(250, calc.add("//[;]\n5,100;100;45"));
+    }
+
+
+
 }
