@@ -67,4 +67,9 @@ public class StringCalculatorTest {
     void manyCustomDelimitersCase() {
         Assertions.assertEquals(500, calc.add("//[*][;][%]\n100,30\n20*150%120;80"));
     }
+
+    @Test
+    void manyLengthyDelimitersCase() {
+        Assertions.assertEquals(150, calc.add("//[**][;;][***]\n10,15***25**70;;30"));
+    }
 }

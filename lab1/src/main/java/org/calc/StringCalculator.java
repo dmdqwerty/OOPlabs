@@ -1,6 +1,7 @@
 package org.calc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -38,6 +39,23 @@ public class StringCalculator {
         return new String(numbersCut);
     }
 
+    private String[] sortDelimiters(char[] numbersAsCharArray) {
+        StringBuilder delimitersUnsorted = new StringBuilder();
+        int index = 3;
+
+        while (numbersAsCharArray[index] != '\n') {
+            if (numbersAsCharArray[index] == '[') {
+                delimitersUnsorted.append("0");
+            } else if (numbersAsCharArray[index] != ']') {
+                delimitersUnsorted.append("\\").append(numbersAsCharArray[index]);
+            }
+            index++;
+        }
+        String[] delimiters = delimitersUnsorted.toString().split("0");
+        Arrays.sort(delimiters,  (s1, s2) -> Integer.compare(s2.length(), s1.length()));
+        return delimiters;
+    }
+
     private String createRegExPattern(char[] numbersAsCharArray) {
         StringBuilder pattern = new StringBuilder("\n,");
         if (hasCustomDelimiters(numbersAsCharArray)) {
@@ -46,14 +64,9 @@ public class StringCalculator {
                 pattern.append(']').insert(0, '[');
             } else {
                 pattern.append(']').insert(0, '[');
-                int index = 2;
-                while (numbersAsCharArray[index] != '\n') {
-                    if (numbersAsCharArray[index] == '[') {
-                        pattern.append('|');
-                    } else if (numbersAsCharArray[index] != ']') {
-                        pattern.append("\\").append(numbersAsCharArray[index]);
-                    }
-                    index++;
+                String[] delimiters = sortDelimiters(numbersAsCharArray);
+                for (String delimiter : delimiters) {
+                    pattern.append("|").append(delimiter);
                 }
             }
         } else {
@@ -92,7 +105,7 @@ public class StringCalculator {
 
     public static void main(String[] args) {
         StringCalculator calc = new StringCalculator();
-        int res = calc.add("//[***]\n101***7\n20***5,10");
+        int res = calc.add("//[***][*][;;]\n101*7\n20***5;;10,3");
         System.out.println(res);
     }
 }
