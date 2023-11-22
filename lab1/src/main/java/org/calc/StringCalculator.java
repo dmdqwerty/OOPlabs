@@ -1,5 +1,7 @@
 package org.calc;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class StringCalculator {
@@ -7,7 +9,7 @@ public class StringCalculator {
         if (numbers.isEmpty()) {
             return 0;
         }
-        int result = 0;
+        int result;
         char[] numbersAsCharArray = numbers.toCharArray();
         String pattern = createRegExPattern(numbersAsCharArray);
         if (hasCustomDelimiters(numbersAsCharArray)) {
@@ -16,9 +18,7 @@ public class StringCalculator {
 
         String[] numbersSplitted = splitNumbers(numbers, pattern);
 
-        for (String num : numbersSplitted) {
-            result += Integer.parseInt(num);
-        }
+        result = addNumbers(numbersSplitted);
         return result;
     }
 
@@ -62,9 +62,26 @@ public class StringCalculator {
         return numbersSplitted;
     }
 
+    private int addNumbers(String[] numbersSplitted) {
+        int result = 0;
+        List<Integer> negativeNumbers = new ArrayList<>();
+        for (String number: numbersSplitted) {
+            int summand = Integer.parseInt(number);
+            if (summand < 0) {
+                negativeNumbers.add(summand);
+            }
+            result += summand;
+        }
+
+        if (!negativeNumbers.isEmpty()) {
+            throw new IllegalArgumentException("Negatives not allowed: " + negativeNumbers);
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         StringCalculator calc = new StringCalculator();
-        int res = calc.add("//[*]\n3*7\n20,5*10");
+        int res = calc.add("//[*]\n-3*7\n20,5*-10");
         System.out.println(res);
     }
 }

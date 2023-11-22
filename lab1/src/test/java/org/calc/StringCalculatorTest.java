@@ -45,8 +45,11 @@ public class StringCalculatorTest {
     @Test
     void customDelimiterCase() {
         Assertions.assertEquals(250, calc.add("//[;]\n5,100;100;45"));
+        Assertions.assertEquals(250, calc.add("//;\n5,100;100;45"));
     }
 
-
-
+    @Test
+    void negativeNumbersCase() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> calc.add("-2,4,-3"), "Negatives not allowed: [-2, -3]");
+    }
 }
