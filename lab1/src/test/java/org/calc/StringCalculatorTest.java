@@ -57,4 +57,9 @@ public class StringCalculatorTest {
     void bigNumbersCase() {
         Assertions.assertEquals(1999, calc.add("1000,999,1001"));
     }
+
+    @Test
+    void lengthyDelimiterCase() {
+        Assertions.assertEquals(333, calc.add("//[;*]\n3;*30,150;*150"));
+    }
 }

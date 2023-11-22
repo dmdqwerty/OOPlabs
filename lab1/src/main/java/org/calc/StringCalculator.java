@@ -43,13 +43,20 @@ public class StringCalculator {
         if (hasCustomDelimiters(numbersAsCharArray)) {
             if (numbersAsCharArray[2] != '[') {
                 pattern.append(numbersAsCharArray[2]);
+                pattern.append(']').insert(0, '[');
             } else {
-                pattern.append(numbersAsCharArray[3]);
+                pattern.append(']').insert(0, '[');
+                pattern.append('|');
+                int index = 3;
+                while (numbersAsCharArray[index] != ']') {
+                    pattern.append("\\").append(numbersAsCharArray[index]);
+                    index++;
+                }
             }
+        } else {
+            pattern.append(']').insert(0, '[');
         }
-        pattern.append("]").insert(0, '[');
         return pattern.toString();
-
     }
 
     private String[] splitNumbers(String numbers, String pattern) {
@@ -82,7 +89,7 @@ public class StringCalculator {
 
     public static void main(String[] args) {
         StringCalculator calc = new StringCalculator();
-        int res = calc.add("//[*]\n10000*1000*7\n20,5*10");
+        int res = calc.add("//[***]\n101***7\n20***5,10");
         System.out.println(res);
     }
 }
