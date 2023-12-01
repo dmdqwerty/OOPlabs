@@ -42,18 +42,18 @@ public class MatrixMutableTest {
         float[] notEnoughContent = new float[] {1, 2, 3, 4, 5, 6};
         Assertions.assertThrows(IllegalArgumentException.class, () -> testMatrix.fillMatrix(notEnoughContent));
     }
-
+    // Those 3 getters are 0-indexed
     @Test
     void getElementTest() {
-        Assertions.assertEquals(7, testMatrix.getElement(2, 3));
-        Assertions.assertEquals(2, testMatrix.getElement(1, 2));
+        Assertions.assertEquals(7, testMatrix.getElement(1, 2));
+        Assertions.assertEquals(2, testMatrix.getElement(0, 1));
     }
 
     @Test
     void getRowTest() {
         float[] rowExpected = new float[] {5, 6, 7, 8};
         for (int i = 0; i < testMatrix.getNumberOfCols(); i++) {
-            Assertions.assertEquals(rowExpected[i], testMatrix.getRow(2)[i]);
+            Assertions.assertEquals(rowExpected[i], testMatrix.getRow(1)[i]);
         }
     }
 
@@ -61,7 +61,33 @@ public class MatrixMutableTest {
     void getColTest() {
         float[] colExpected = new float[] {3, 7, 11};
         for (int i = 0; i < testMatrix.getNumberOfRows(); i++) {
-            Assertions.assertEquals(colExpected[i], testMatrix.getCol(3)[i]);
+            Assertions.assertEquals(colExpected[i], testMatrix.getCol(2)[i]);
         }
+    }
+
+    @Test
+    void getSizeTest() {
+        Assertions.assertArrayEquals(new int[]{3, 4}, testMatrix.getSize());
+    }
+
+    @Test
+    void equalsTest() {
+        Matrix testMatrix2 = new MatrixMutable(testMatrix);
+        Matrix testMatrix3 = new MatrixMutable(3, 4);
+        testMatrix3.fillMatrix(new float[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12});
+        Assertions.assertEquals(testMatrix, testMatrix); // reflexivity
+        Assertions.assertEquals(testMatrix.equals(testMatrix2), testMatrix2.equals(testMatrix)); // symmetry
+        // transitivity
+        Assertions.assertEquals(testMatrix, testMatrix3);
+        Assertions.assertEquals(testMatrix2, testMatrix3);
+    }
+
+    @Test
+    void hashCodeTest() {
+        Matrix testMatrix2 = new MatrixMutable(testMatrix);
+        Matrix testMatrix3 = new MatrixMutable(3, 4);
+        testMatrix3.fillMatrix(new float[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12});
+        Assertions.assertEquals(testMatrix.hashCode(), testMatrix2.hashCode());
+        Assertions.assertEquals(testMatrix2.hashCode(), testMatrix3.hashCode());
     }
 }

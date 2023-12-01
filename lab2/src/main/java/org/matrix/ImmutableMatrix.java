@@ -1,14 +1,19 @@
 package org.matrix;
 
-
+import java.lang.module.FindException;
 import java.util.Arrays;
 
-public class MatrixMutable implements Matrix {
-    private int rows, cols;
-    private float[][] content;
+public final class ImmutableMatrix implements Matrix {
+    private final int rows, cols;
+    private final float[][] content;
+
 
     public float[][] getContent() {
-        return content;
+        float[][] copyContent = new float[this.rows][];
+        for (int i = 0; i < this.getNumberOfRows(); i++) {
+            copyContent[i] = Arrays.copyOf(content[i], getNumberOfCols());
+        }
+        return copyContent;
     }
 
     public int getNumberOfRows() {
@@ -28,43 +33,51 @@ public class MatrixMutable implements Matrix {
         System.out.println("------------");
     }
 
-    public MatrixMutable() {
+    public ImmutableMatrix() {
         this.rows = 0;
         this.cols = 0;
         this.content = new float[0][0];
     }
 
-    public MatrixMutable(int rows, int cols) {
+    public ImmutableMatrix(int rows, int cols, float[][] content) {
+        this.rows = rows;
+        this.cols = cols;
+        this.content = new float[rows][];
+        for (int i = 0; i < rows; i++) {
+            this.content[i] = Arrays.copyOf(content[i], cols);
+        }
+    }
+
+    public ImmutableMatrix(int rows, int cols, float[] content) {
         this.rows = rows;
         this.cols = cols;
         this.content = new float[rows][cols];
+        int index = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                this.content[i][j] = content[index];
+                index++;
+            }
+        }
     }
 
-    public MatrixMutable(Matrix matrix) {
+    public ImmutableMatrix(Matrix matrix) {
         this.rows = matrix.getSize()[0];
         this.cols = matrix.getSize()[1];
         this.content = new float[rows][];
-        for (int i = 0; i < this.getNumberOfRows(); i++) {
-            this.content[i] = matrix.getRow(i);
+        for (int i = 0; i < rows; i++) {
+            this.content[i] = Arrays.copyOf(matrix.getRow(i), cols);
         }
     }
 
     @Override
-    public MatrixMutable fillMatrix(float[] content) {
+    public ImmutableMatrix fillMatrix(float[] content) {
         if (this.cols * this.rows == content.length) {
-            int index = 0;
-            for (int i = 0; i < this.rows; i++) {
-                for (int j = 0; j < this.cols; j++) {
-                    this.content[i][j] = content[index];
-                    index++;
-                }
-            }
+            return new ImmutableMatrix(this.rows, this.cols, content);
         } else {
             throw new IllegalArgumentException("Matrix size doesn't match content array length.");
         }
-        return this;
     }
-
 
     @Override
     public float getElement(int row, int col) {
@@ -84,7 +97,6 @@ public class MatrixMutable implements Matrix {
         for (int row = 0; row < numRows; row ++) {
             column[row] = this.getContent()[row][col];
         }
-
         return column;
     }
 
