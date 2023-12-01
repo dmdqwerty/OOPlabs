@@ -150,4 +150,21 @@ public final class ImmutableMatrix implements Matrix {
         }
         return new ImmutableMatrix(this.getSize()[0], this.getSize()[1], content);
     }
+
+    @Override
+    public ImmutableMatrix multiplyBy(Matrix matrix) {
+        if (this.getNumberOfCols() != matrix.getSize()[0]) {
+            throw new IllegalArgumentException("Matrices size doesn't match.");
+        }
+        MatrixMutable temp = new MatrixMutable(this.getNumberOfRows(), matrix.getSize()[1]);
+
+        for (int row = 0; row < this.getNumberOfRows(); row++) {
+            for (int col = 0; col < matrix.getSize()[1]; col++) {
+                for (int k = 0; k < this.getNumberOfCols(); k++) {
+                    temp.getContent()[row][col] += this.getElement(row, k) * matrix.getElement(k, col);
+                }
+            }
+        }
+        return new ImmutableMatrix(temp);
+    }
 }

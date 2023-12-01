@@ -9,4 +9,5 @@ public interface Matrix {
     int[] getSize();
     Matrix addMatrices(Matrix matrix);
     Matrix multiplyBy(int multiplier);
+    Matrix multiplyBy(Matrix matrix);
 }

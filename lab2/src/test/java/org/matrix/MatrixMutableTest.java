@@ -114,4 +114,13 @@ public class MatrixMutableTest {
         Matrix expectedMatrix = new MatrixMutable(3, 4).fillMatrix(expectedContent);
         Assertions.assertEquals(expectedMatrix, testMatrix.multiplyBy(2));
     }
+
+    @Test
+    void matricesMultiplicationTest() {
+        float[] expectedContent = new float[] {90, 110, 202, 254, 314, 398};
+        Matrix expectedMatrix = new MatrixMutable(3, 2).fillMatrix(expectedContent);
+        float[] someContent = new float[] {1, 3, 5, 7, 9, 11, 13, 15};
+        Matrix multiplierMatrix = new MatrixMutable(4 ,2).fillMatrix(someContent);
+        Assertions.assertEquals(expectedMatrix, testMatrix.multiplyBy(multiplierMatrix));
+    }
 }

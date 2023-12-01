@@ -142,4 +142,23 @@ public class MatrixMutable implements Matrix {
         }
         return this;
     }
+
+    @Override
+    public MatrixMutable multiplyBy(Matrix matrix) {
+        if (this.getNumberOfCols() != matrix.getSize()[0]) {
+            throw new IllegalArgumentException("Matrices size doesn't match.");
+        }
+        MatrixMutable temp = new MatrixMutable(this.getNumberOfRows(), matrix.getSize()[1]);
+
+        for (int row = 0; row < this.getNumberOfRows(); row++) {
+            for (int col = 0; col < matrix.getSize()[1]; col++) {
+                for (int k = 0; k < this.getNumberOfCols(); k++) {
+                    temp.content[row][col] += this.getElement(row, k) * matrix.getElement(k, col);
+                }
+            }
+        }
+        this.cols = temp.cols;
+        this.content = temp.content;
+        return this;
+    }
 }

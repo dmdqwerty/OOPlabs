@@ -131,4 +131,16 @@ public class ImmutableMatrixTest {
         Assertions.assertEquals(copyOrigin, immMat);
         Assertions.assertEquals(expectedMatrix, newImmMat);
     }
+
+    @Test
+    void matricesMultiplicationTest() {
+        Matrix copyOrigin = new ImmutableMatrix(immMat);
+        float[] expectedContent = new float[] {90, 110, 202, 254, 314, 398};
+        Matrix expectedMatrix = new ImmutableMatrix(3, 2, expectedContent);
+        float[] someContent = new float[] {1, 3, 5, 7, 9, 11, 13, 15};
+        Matrix multiplierMatrix = new MatrixMutable(4 ,2).fillMatrix(someContent);
+        ImmutableMatrix res = immMat.multiplyBy(multiplierMatrix);
+        Assertions.assertEquals(expectedMatrix, res);
+        Assertions.assertEquals(copyOrigin, immMat);
+    }
 }
