@@ -2,6 +2,7 @@ package org.matrix;
 
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class MatrixMutable implements Matrix {
     private int rows, cols;
@@ -65,6 +66,25 @@ public class MatrixMutable implements Matrix {
         this.content = new float[rows][cols];
         for (int i = 0; i < dimension; i++) {
             this.content[i][i] = 1;
+        }
+    }
+
+    public MatrixMutable(int size, boolean rowOrCol) { // Will return either matrix row or matrix-col (bool rowOrCol)
+        Random random = new Random();                  // Of a given size, filled with random values.
+        if (rowOrCol) {
+            this.rows = 1;
+            this.cols = size;
+            this.content = new float[1][cols];
+            for (int i = 0; i < size; i++) {
+                this.content[0][i] = random.nextFloat() * 10;
+            }
+        } else {
+            this.rows = size;
+            this.cols = 1;
+            this.content = new float[rows][1];
+            for (int i = 0; i < size; i++) {
+                this.content[i][0] = random.nextFloat() * 10;
+            }
         }
     }
 
