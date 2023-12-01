@@ -161,4 +161,18 @@ public class MatrixMutable implements Matrix {
         this.content = temp.content;
         return this;
     }
+
+    @Override
+    public MatrixMutable transpose() {
+        MatrixMutable temp = new MatrixMutable(this.getNumberOfCols(), this.getNumberOfRows());
+        for (int row = 0; row < this.getNumberOfRows(); row++) {
+            for (int col = 0; col < this.getNumberOfCols(); col++) {
+                temp.getContent()[col][row] = this.getElement(row, col);
+            }
+        }
+        this.rows = temp.rows;
+        this.cols = temp.cols;
+        this.content = temp.content;
+        return this;
+    }
 }

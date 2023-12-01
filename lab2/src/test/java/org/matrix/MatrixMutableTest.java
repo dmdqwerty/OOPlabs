@@ -123,4 +123,11 @@ public class MatrixMutableTest {
         Matrix multiplierMatrix = new MatrixMutable(4 ,2).fillMatrix(someContent);
         Assertions.assertEquals(expectedMatrix, testMatrix.multiplyBy(multiplierMatrix));
     }
+
+    @Test
+    void transposeTest() {
+        float[] expectedContent = new float[] {1, 5, 9, 2, 6, 10, 3, 7, 11, 4, 8, 12};
+        Matrix expectedMatrix = new MatrixMutable(4, 3).fillMatrix(expectedContent);
+        Assertions.assertEquals(expectedMatrix, testMatrix.transpose());
+    }
 }

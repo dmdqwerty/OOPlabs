@@ -167,4 +167,15 @@ public final class ImmutableMatrix implements Matrix {
         }
         return new ImmutableMatrix(temp);
     }
+
+    @Override
+    public ImmutableMatrix transpose() {
+        MatrixMutable temp = new MatrixMutable(this.getNumberOfCols(), this.getNumberOfRows());
+        for (int row = 0; row < this.getNumberOfRows(); row++) {
+            for (int col = 0; col < this.getNumberOfCols(); col++) {
+                temp.getContent()[col][row] = this.getElement(row, col);
+            }
+        }
+        return new ImmutableMatrix(temp);
+    }
 }

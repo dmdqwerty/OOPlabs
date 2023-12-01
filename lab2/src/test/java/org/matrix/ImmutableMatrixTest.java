@@ -143,4 +143,14 @@ public class ImmutableMatrixTest {
         Assertions.assertEquals(expectedMatrix, res);
         Assertions.assertEquals(copyOrigin, immMat);
     }
+
+    @Test
+    void transposeTest() {
+        Matrix copyOrigin = new ImmutableMatrix(immMat);
+        float[] expectedContent = new float[] {1, 5, 9, 2, 6, 10, 3, 7, 11, 4, 8, 12};
+        Matrix expectedMatrix = new ImmutableMatrix(4, 3, expectedContent);
+        Matrix res = immMat.transpose();
+        Assertions.assertEquals(expectedMatrix, res);
+        Assertions.assertEquals(copyOrigin, immMat);
+    }
 }
