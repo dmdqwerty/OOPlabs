@@ -7,4 +7,6 @@ public interface Matrix {
     float[] getRow(int row);
     float[] getCol(int col);
     int[] getSize();
+    Matrix addMatrices(Matrix matrix);
+    Matrix multiplyBy(int multiplier);
 }

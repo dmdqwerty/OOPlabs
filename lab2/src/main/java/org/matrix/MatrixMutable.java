@@ -119,4 +119,27 @@ public class MatrixMutable implements Matrix {
         result = 31 * result + Arrays.deepHashCode(this.getContent());
         return result;
     }
+
+    @Override
+    public MatrixMutable addMatrices(Matrix matrix) {
+        if (!Arrays.equals(this.getSize(), matrix.getSize())) {
+            throw new IllegalArgumentException("Matrices of different size can't be added.");
+        }
+        for (int row = 0; row < this.getNumberOfRows(); row++) {
+            for (int col = 0; col < this.getNumberOfCols(); col++) {
+                this.content[row][col] += matrix.getElement(row, col);
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public MatrixMutable multiplyBy(int multiplier) {
+        for (int row = 0; row < this.getNumberOfRows(); row++) {
+            for (int col = 0; col < this.getNumberOfCols(); col++) {
+                this.content[row][col] *= multiplier;
+            }
+        }
+        return this;
+    }
 }

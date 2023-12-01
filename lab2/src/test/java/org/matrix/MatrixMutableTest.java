@@ -90,4 +90,28 @@ public class MatrixMutableTest {
         Assertions.assertEquals(testMatrix.hashCode(), testMatrix2.hashCode());
         Assertions.assertEquals(testMatrix2.hashCode(), testMatrix3.hashCode());
     }
+
+    @Test
+    void addMatricesTest() {
+        float[] content = new float[] {1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23};
+        Matrix matrixToBeAdded = new ImmutableMatrix(3, 4, content);
+        float[] expectedContent = new float[] {2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35};
+        Matrix expectedMatrix = new MatrixMutable(3, 4).fillMatrix(expectedContent);
+        testMatrix.addMatrices(matrixToBeAdded);
+        Assertions.assertEquals(expectedMatrix, testMatrix);
+    }
+
+    @Test
+    void addImproperMatrixTest() {
+        float[] content = new float[] {1, 3, 5, 7, 9, 11, 13, 15, 17};
+        Matrix matrixToBeAdded = new MatrixMutable(3, 3).fillMatrix(content);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> testMatrix.addMatrices(matrixToBeAdded));
+    }
+
+    @Test
+    void scaleMultiplyTest() {
+        float[] expectedContent = new float[] {2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24};
+        Matrix expectedMatrix = new MatrixMutable(3, 4).fillMatrix(expectedContent);
+        Assertions.assertEquals(expectedMatrix, testMatrix.multiplyBy(2));
+    }
 }

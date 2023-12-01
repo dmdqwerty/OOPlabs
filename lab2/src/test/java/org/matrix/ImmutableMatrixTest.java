@@ -100,4 +100,35 @@ public class ImmutableMatrixTest {
         mutMat.fillMatrix(new float[] {1, 2, 3, 4, 5, 6, 77777, 8, 9, 10, 11, 12});
         Assertions.assertNotEquals(mutMat, immMat); // mutMat's content was overridden
     }
+
+    @Test
+    void addMatricesTest() {
+        Matrix copyOrigin = new ImmutableMatrix(immMat);
+        float[] content = new float[] {1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23};
+        Matrix matrixToBeAdded = new MatrixMutable(3, 4).fillMatrix(content);
+        ImmutableMatrix newImmMat = immMat.addMatrices(matrixToBeAdded);
+
+        float[] expectedContent = new float[] {2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35};
+        Matrix expectedMatrix = new ImmutableMatrix(3, 4, expectedContent);
+
+        Assertions.assertEquals(expectedMatrix, newImmMat);
+        Assertions.assertEquals(copyOrigin, immMat);
+    }
+
+    @Test
+    void addImproperMatrixTest() {
+        float[] content = new float[] {1, 3, 5, 7, 9, 11, 13, 15, 17};
+        Matrix matrixToBeAdded = new MatrixMutable(3, 3).fillMatrix(content);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> immMat.addMatrices(matrixToBeAdded));
+    }
+
+    @Test
+    void scaleMultiplyTest() {
+        Matrix copyOrigin = new ImmutableMatrix(immMat);
+        float[] expectedContent = new float[] {3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36};
+        Matrix expectedMatrix = new ImmutableMatrix(3, 4, expectedContent);
+        Matrix newImmMat = immMat.multiplyBy(3);
+        Assertions.assertEquals(copyOrigin, immMat);
+        Assertions.assertEquals(expectedMatrix, newImmMat);
+    }
 }

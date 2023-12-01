@@ -1,6 +1,5 @@
 package org.matrix;
 
-import java.lang.module.FindException;
 import java.util.Arrays;
 
 public final class ImmutableMatrix implements Matrix {
@@ -37,15 +36,6 @@ public final class ImmutableMatrix implements Matrix {
         this.rows = 0;
         this.cols = 0;
         this.content = new float[0][0];
-    }
-
-    public ImmutableMatrix(int rows, int cols, float[][] content) {
-        this.rows = rows;
-        this.cols = cols;
-        this.content = new float[rows][];
-        for (int i = 0; i < rows; i++) {
-            this.content[i] = Arrays.copyOf(content[i], cols);
-        }
     }
 
     public ImmutableMatrix(int rows, int cols, float[] content) {
@@ -130,5 +120,34 @@ public final class ImmutableMatrix implements Matrix {
         result = 31 * result + this.getNumberOfCols();
         result = 31 * result + Arrays.deepHashCode(this.getContent());
         return result;
+    }
+
+    @Override
+    public ImmutableMatrix addMatrices(Matrix matrix) {
+        if (!Arrays.equals(this.getSize(), matrix.getSize())) {
+            throw new IllegalArgumentException("Matrices of different size can't be added.");
+        }
+        int index = 0;
+        float[] newContent = new float[matrix.getSize()[0] * matrix.getSize()[1]];
+        for (int row = 0; row < this.getNumberOfRows(); row++) {
+            for (int col = 0; col < this.getNumberOfCols(); col++) {
+                newContent[index] = this.getElement(row, col) + matrix.getElement(row, col);
+                index++;
+            }
+        }
+        return new ImmutableMatrix(matrix.getSize()[0], matrix.getSize()[1], newContent);
+    }
+
+    @Override
+    public ImmutableMatrix multiplyBy(int multiplier) {
+        float[] content = new float[this.getNumberOfRows() * this.getNumberOfCols()];
+        int index = 0;
+        for (int row = 0; row < this.getNumberOfRows(); row++) {
+            for (int col = 0; col < this.getNumberOfCols(); col++) {
+                content[index] = this.getElement(row, col) * multiplier;
+                index++;
+            }
+        }
+        return new ImmutableMatrix(this.getSize()[0], this.getSize()[1], content);
     }
 }
