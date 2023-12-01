@@ -130,4 +130,21 @@ public class MatrixMutableTest {
         Matrix expectedMatrix = new MatrixMutable(4, 3).fillMatrix(expectedContent);
         Assertions.assertEquals(expectedMatrix, testMatrix.transpose());
     }
+
+    @Test
+    void createDiagonalMatrixTest() {
+        float[] expectedContent = new float[] {17, 0, 0, 0, 19, 0, 0, 0, 23};
+        Matrix expectedMatrix = new MatrixMutable(3, 3).fillMatrix(expectedContent);
+        float[] vector = new float[] {17, 19, 23};
+        Matrix diagonalMatrix = new MatrixMutable(vector);
+        Assertions.assertEquals(expectedMatrix, diagonalMatrix);
+    }
+
+    @Test
+    void unitMatrixTest() {
+        float[] expectedContent = new float[] {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
+        Matrix expectedMatrix = new MatrixMutable(4, 4).fillMatrix(expectedContent);
+        Matrix unitMatrix = new MatrixMutable(4);
+        Assertions.assertEquals(expectedMatrix, unitMatrix);
+    }
 }

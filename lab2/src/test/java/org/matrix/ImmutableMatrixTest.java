@@ -153,4 +153,21 @@ public class ImmutableMatrixTest {
         Assertions.assertEquals(expectedMatrix, res);
         Assertions.assertEquals(copyOrigin, immMat);
     }
+
+    @Test
+    void createDiagonalMatrixTest() {
+        float[] expectedContent = new float[] {17, 0, 0, 0, 19, 0, 0, 0, 23};
+        Matrix expectedMatrix = new ImmutableMatrix(3, 3, expectedContent);
+        float[] vector = new float[] {17, 19, 23};
+        Matrix diagonalMatrix = new ImmutableMatrix(vector);
+        Assertions.assertEquals(expectedMatrix, diagonalMatrix);
+    }
+
+    @Test
+    void unitMatrixTest() {
+        float[] expectedContent = new float[] {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
+        Matrix expectedMatrix = new ImmutableMatrix(4, 4, expectedContent);
+        Matrix unitMatrix = new ImmutableMatrix(4);
+        Assertions.assertEquals(expectedMatrix, unitMatrix);
+    }
 }

@@ -49,6 +49,25 @@ public class MatrixMutable implements Matrix {
         }
     }
 
+    public MatrixMutable(float[] vector) { // Will return square matrix with given vector on the diagonal
+        int dimension = vector.length;
+        this.rows = dimension;
+        this.cols = dimension;
+        this.content = new float[rows][cols];
+        for (int i = 0; i < dimension; i++) {
+            this.content[i][i] = vector[i];
+        }
+    }
+
+    public MatrixMutable(int dimension) { // Will return unit matrix of given dimension
+        this.rows = dimension;
+        this.cols = dimension;
+        this.content = new float[rows][cols];
+        for (int i = 0; i < dimension; i++) {
+            this.content[i][i] = 1;
+        }
+    }
+
     @Override
     public MatrixMutable fillMatrix(float[] content) {
         if (this.cols * this.rows == content.length) {
