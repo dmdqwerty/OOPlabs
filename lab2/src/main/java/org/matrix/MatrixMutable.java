@@ -214,4 +214,90 @@ public class MatrixMutable implements Matrix {
         this.content = temp.content;
         return this;
     }
+
+    @Override
+    public float calculateDeterminant() {
+        if (this.getNumberOfRows() != this.getNumberOfCols()) {
+            throw new IllegalArgumentException("Determinant exists for square matrices only.");
+        }
+        int order = this.getNumberOfRows();
+
+        if (order == 1) {
+            return this.getElement(0, 0);
+        }
+
+        if (order == 2) {
+            return this.getElement(0, 0) * this.getElement(1, 1) - this.getElement(0, 1) * this.getElement(1, 0);
+        }
+
+        float determinant = 0;
+        for (int i = 0; i < order; i++) {
+            determinant += Math.pow(-1, i) * this.getElement(0, i) * getSubMatrix(0, i).calculateDeterminant();
+        }
+
+        return determinant;
+    }
+
+    private MatrixMutable getSubMatrix(int rowRemove, int colRemove) { // Removes specified row and column
+        if (this.getNumberOfRows() != this.getNumberOfCols()) {
+            throw new IllegalArgumentException("Matrix should be square for correct implementation.");
+        }
+
+        int order = this.getNumberOfRows();
+        MatrixMutable subMatrix = new MatrixMutable(order-1, order-1);
+        float[] content = new float[(order-1)*(order-1)];
+        int index = 0;
+        for (int i = 0; i < order; i++) {
+            for (int j = 0; j < order; j++) {
+                if (i != rowRemove && j != colRemove) {
+                    content[index] = this.getElement(i, j);
+                    index++;
+                }
+            }
+        }
+        subMatrix.fillMatrix(content);
+        return subMatrix;
+    }
+
+    private MatrixMutable calculateAddMatrix () {
+        if (this.getNumberOfRows() != this.getNumberOfCols()) {
+            throw new IllegalArgumentException("Matrix should be square for correct implementation.");
+        }
+
+        int order = this.getNumberOfRows();
+        MatrixMutable addMatrix = new MatrixMutable(order, order);
+        float[] content = new float[order*order];
+        int index = 0;
+        for (int i = 0; i < order; i++) {
+            for (int j = 0; j < order; j++) {
+                int sign = (i + j) % 2 == 0 ? 1 : -1;
+                float el = sign * this.getSubMatrix(i, j).calculateDeterminant();
+                content[index] = el;
+                index++;
+            }
+        }
+        addMatrix.fillMatrix(content).transpose();
+        return addMatrix;
+    }
+
+    @Override
+    public MatrixMutable calculateInverseMatrix() {
+        float det = this.calculateDeterminant();
+        if (det == 0) {
+            throw new RuntimeException("Determinant = 0. Inverse matrix doesn't exist.");
+        }
+        int order = this.getNumberOfRows();
+
+        MatrixMutable addMatrix = this.calculateAddMatrix();
+        float[] content = new float[order*order];
+        int index = 0;
+        for (int i = 0; i < order; i++) {
+            for (int j = 0; j < order; j++) {
+                content[index] = addMatrix.getElement(i, j) / det;
+                index++;
+            }
+        }
+        this.fillMatrix(content);
+        return this;
+    }
 }

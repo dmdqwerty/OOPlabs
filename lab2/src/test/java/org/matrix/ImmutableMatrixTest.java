@@ -170,4 +170,11 @@ public class ImmutableMatrixTest {
         Matrix unitMatrix = new ImmutableMatrix(4);
         Assertions.assertEquals(expectedMatrix, unitMatrix);
     }
+
+    @Test
+    void determinantTest() {
+        float[] content = new float[] {8, 7, 5, 12, 3, 7, 5, 7, 1};
+        ImmutableMatrix matrix = new ImmutableMatrix(3, 3, content);
+        Assertions.assertEquals(138, matrix.calculateDeterminant());
+    }
 }

@@ -147,4 +147,11 @@ public class MatrixMutableTest {
         Matrix unitMatrix = new MatrixMutable(4);
         Assertions.assertEquals(expectedMatrix, unitMatrix);
     }
+
+    @Test
+    void determinantTest() {
+        float[] content = new float[] {8, 7, 5, 12, 3, 7, 5, 7, 1};
+        MatrixMutable matrix = new MatrixMutable(3, 3).fillMatrix(content);
+        Assertions.assertEquals(138, matrix.calculateDeterminant());
+    }
 }

@@ -11,4 +11,6 @@ public interface Matrix {
     Matrix multiplyBy(int multiplier);
     Matrix multiplyBy(Matrix matrix);
     Matrix transpose();
+    float calculateDeterminant();
+    Matrix calculateInverseMatrix();
 }
