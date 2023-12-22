@@ -2,6 +2,7 @@ package org.fpm.di.example;
 
 import org.fpm.di.Container;
 import org.fpm.di.Environment;
+import org.fpm.di.EnvironmentClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ public class Example {
 
     @Before
     public void setUp() {
-        Environment env = new DummyEnvironment();
+        Environment env = new EnvironmentClass();
         container = env.configure(new MyConfiguration());
     }
 
